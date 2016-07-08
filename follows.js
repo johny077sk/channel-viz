@@ -16,7 +16,7 @@
 		defaultFeeds	= [841838561], // Comma separated array of Xively Feed ID numbers
 		applicationName	= '', // Replaces Xively logo in the header
 		dataDuration	= '1day', // Default duration of data to be displayed // ref: https://xively.com/dev/docs/api/data/read/historical_data/
-		dataInterval	= 300, // Default interval for data to be displayed (in seconds)
+		dataInterval	= 60, // Default interval for data to be displayed (in seconds)
 		dataColor		= '', // CSS HEX value of color to represent data (omit leading #)
 		hideForm		= 1; // To hide input form use value of 1, otherwise set to 0
 
@@ -77,6 +77,8 @@
 						datastreamIds += datastream.id + " ";
 					});
 				}
+				var i = 0;
+				var series = [][];
 				feedData.datastreams.forEach(function(datastream) {
 					var now = new Date();
 					var then = new Date();
@@ -93,7 +95,8 @@
 						if(datastreamIds && datastreamIds != '' && datastreamIds.indexOf(datastream.id) >= 0) {
 							xively.datastream.history(feedId, datastream.id, {duration: duration, interval: interval, limit: 1000}, function(datastreamData) {
 
-								var series = [];
+								
+								//var series = [];
 								var points = [];
 
 								// Create Datastream UI
@@ -134,16 +137,29 @@
 									});
 
 									// Add Datapoints Array to Graph Series Array
-									series.push({
+									series[i].push({
 										name: datastream.id,
 										data: points,
-										color: '#' + dataColor
+										color:  palette.color() //'#' + dataColor
 									});
-
+									i = i+1;
 									// Initialize Graph DOM Element
 									$('#feed-' + feedId + ' .datastreams .datastream-' + datastream.id + ' .graph').attr('id', 'graph-' + feedId + '-' + datastream.id);
 
-						 			// Build Graph
+						 			
+	               					});
+								} else {
+									$('#feed-' + feedId + ' .datastreams .datastream-' + datastream.id + ' .graphWrapper').addClass('hidden');
+								}
+							});
+						} else {
+							console.log('Datastream not requested! (' + datastream.id + ')');
+						}
+					} else {
+						$('#feed-' + feedId + ' .datastreams .datastream-' + datastream.id + ' .graphWrapper').html('<div class="alert alert-box no-info">Sorry, this datastream does not have any associated data.</div>');
+					}
+				});
+				// Build Graph
 									var graph = new Rickshaw.Graph( {
 										element: document.querySelector('#graph-' + feedId + '-' + datastream.id),
 										width: 900,
@@ -157,7 +173,7 @@
 											bottom: 0.02,
 											left: 0.02
 										},
-										series: series
+										series: series[0],series[1]
 									});
 
 									graph.render();
@@ -193,18 +209,7 @@
 									var slider = new Rickshaw.Graph.RangeSlider({
 	            	   					graph: graph,
 	        	       					element: $('#slider-' + feedId + '-' + datastream.id)
-	               					});
-								} else {
-									$('#feed-' + feedId + ' .datastreams .datastream-' + datastream.id + ' .graphWrapper').addClass('hidden');
-								}
-							});
-						} else {
-							console.log('Datastream not requested! (' + datastream.id + ')');
-						}
-					} else {
-						$('#feed-' + feedId + ' .datastreams .datastream-' + datastream.id + ' .graphWrapper').html('<div class="alert alert-box no-info">Sorry, this datastream does not have any associated data.</div>');
-					}
-				});
+
 			}
 			$('#loadingData').foundation('reveal', 'close');
 		});
