@@ -71,7 +71,7 @@
 
 	function updateFeeds(feedId, datastreamIds, duration, interval) {
 		xively.feed.get(feedId, function(feedData) {
-			console.log(datastream.id);
+			
 			if(feedData.datastreams) {
 				if(datastreamIds == '' || !datastreamIds) {
 					feedData.datastreams.forEach(function(datastream) {
