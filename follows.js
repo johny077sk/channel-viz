@@ -147,7 +147,7 @@
 									$('#feed-' + feedId + ' .datastreams .datastream-' + datastream.id + ' .graph').attr('id', 'graph-' + feedId + '-' + datastream.id);
 
 						 			
-	               					});
+	               					
 								} else {
 									$('#feed-' + feedId + ' .datastreams .datastream-' + datastream.id + ' .graphWrapper').addClass('hidden');
 								}
@@ -209,6 +209,7 @@
 									var slider = new Rickshaw.Graph.RangeSlider({
 	            	   					graph: graph,
 	        	       					element: $('#slider-' + feedId + '-' + datastream.id)
+								});
 
 			}
 			$('#loadingData').foundation('reveal', 'close');
