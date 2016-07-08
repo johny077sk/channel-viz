@@ -78,7 +78,7 @@
 					});
 				}
 				var i = 0;
-				var series = [[]];
+				var series = [[,],[,]];
 				feedData.datastreams.forEach(function(datastream) {
 					var now = new Date();
 					var then = new Date();
