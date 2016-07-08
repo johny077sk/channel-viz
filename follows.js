@@ -71,6 +71,7 @@
 
 	function updateFeeds(feedId, datastreamIds, duration, interval) {
 		xively.feed.get(feedId, function(feedData) {
+			console.log(datastream.id);
 			if(feedData.datastreams) {
 				if(datastreamIds == '' || !datastreamIds) {
 					feedData.datastreams.forEach(function(datastream) {
@@ -145,7 +146,7 @@
 									i = i+1;
 									// Initialize Graph DOM Element
 									$('#feed-' + feedId + ' .datastreams .datastream-' + datastream.id + ' .graph').attr('id', 'graph-' + feedId + '-' + datastream.id);
-									console.log(datastream.id);	
+										
 						 			console.log(i);
 	               					
 								} else {
