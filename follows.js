@@ -78,6 +78,7 @@
 						datastreamIds += datastream.id + " ";
 					});
 				}
+				var datastreamidjm = [];
 				var i = 0;
 				var series = [[,],[,]];
 				feedData.datastreams.forEach(function(datastream) {
@@ -143,7 +144,9 @@
 										data: points,
 										color:  palette.color() //'#' + dataColor
 									});
+									datastreamidjm[i] = datastream.id;
 									i = i+1;
+									
 									// Initialize Graph DOM Element
 									$('#feed-' + feedId + ' .datastreams .datastream-' + datastream.id + ' .graph').attr('id', 'graph-' + feedId + '-' + datastream.id);
 										
@@ -163,7 +166,7 @@
 				// Build Graph
 									var palette = new Rickshaw.Color.Palette( { scheme: 'classic9' } );
 									var graph = new Rickshaw.Graph( {
-										element: document.querySelector('#graph-' + feedId + '-' + datastream.id),
+										element: document.querySelector('#graph-' + feedId + '-' + datastreamidjm[0]),//datastream.id),
 										width: 900,
 										height: 300,
 										renderer: 'line',
