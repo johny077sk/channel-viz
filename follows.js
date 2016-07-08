@@ -160,6 +160,7 @@
 					}
 				});
 				// Build Graph
+									var palette = new Rickshaw.Color.Palette( { scheme: 'classic9' } );
 									var graph = new Rickshaw.Graph( {
 										element: document.querySelector('#graph-' + feedId + '-' + datastream.id),
 										width: 900,
