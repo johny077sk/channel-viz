@@ -173,7 +173,7 @@
 											bottom: 0.02,
 											left: 0.02
 										},
-										series: series[0], series[1];
+										series: [series[0], series[1]]
 									});
 
 									graph.render();
